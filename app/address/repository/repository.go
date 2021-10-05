@@ -3,6 +3,7 @@ package repository
 import (
 	"fiber-crud/app/address/model"
 
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
@@ -24,10 +25,15 @@ func NewRepository(db *gorm.DB) IRepository {
 func (r *repository) Inquiry(address *model.Address) (result []model.Address, err error) {
 	//## หากต้องการดู string query ที่ gorm generate ให้ให้ใช่ .Debuger()
 	//## ตัวอย่าง err = r.db.Debug().Find(&result).Error
-	err = r.db.Find(&result).Error
+	err = r.db.Debug().Find(&result, &address).Error
 	if err != nil {
 		return result, err
 	}
+
+	if len(result) == 0 {
+		return result, fiber.ErrNotFound
+	}
+
 	return result, nil
 }
 

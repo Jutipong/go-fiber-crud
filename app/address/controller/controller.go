@@ -17,6 +17,5 @@ func NewController(service service.IService) controller {
 
 func (ct controller) Inquiry(ctx *fiber.Ctx) error {
 	req := model.Address{AddressId: ctx.Params("id")}
-	response := ct.service.Inquiry(ctx, &req)
-	return ctx.JSON(response)
+	return ctx.JSON(ct.service.Inquiry(ctx, &req))
 }
