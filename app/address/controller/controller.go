@@ -15,32 +15,28 @@ func NewController(service service.IService) controller {
 	return controller{service: service}
 }
 
-func (ct controller) Login(ctx *fiber.Ctx) error {
-	// Validation Model
-	var authReq model.Auth
-	if err := authReq.Validation(ctx); err != nil {
-		return fiber.ErrBadRequest
-	}
-
-	result, err := ct.service.Login(ctx, &authReq)
-	if err != nil {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(err.Error())
-	}
-	return ctx.JSON(result)
+func (ct controller) Inquiry(ctx *fiber.Ctx) error {
+	req := model.Address{AddressId: ctx.Params("id")}
+	return ctx.JSON(ct.service.Inquiry(ctx, &req))
 }
 
 func (ct controller) Create(ctx *fiber.Ctx) error {
-	auth := model.Auth{}
-	if err := ctx.BodyParser(&auth); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": true,
-			"msg":   err.Error(),
-		})
+	req := model.Address{}
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(model.Create_Response{Message: err.Error()})
 	}
+	return ctx.JSON(ct.service.Create(ctx, &req))
+}
 
-	err := ct.service.Create(ctx, &auth)
-	if err != nil {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(err.Error())
+func (ct controller) Update(ctx *fiber.Ctx) error {
+	req := model.Address{}
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(model.Create_Response{Message: err.Error()})
 	}
-	return ctx.JSON(fiber.Map{"status": "success"})
+	return ctx.JSON(ct.service.Update(ctx, &req))
+}
+
+func (ct controller) Delete(ctx *fiber.Ctx) error {
+	req := model.Address{AddressId: ctx.Params("id")}
+	return ctx.JSON(ct.service.Delete(ctx, &req))
 }

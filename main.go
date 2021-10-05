@@ -22,6 +22,7 @@ func main() {
 
 	// Middleware
 	app.Use(middleware.Logger)
+	app.Use(middleware.Authorization())
 
 	// Routes
 	routes.PublicRoutes(app)

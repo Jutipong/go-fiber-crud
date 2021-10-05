@@ -1,17 +1,32 @@
-###
-GET    http://localhost:8080/auth/login
-Authorization: Basic admin:admin
+### Inquiry
+GET    http://localhost:8081/address/inquiry/A0636C1B-CE3E-4C3A-AA8B-778190FA42CC
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVU0VSX0lORk8iOiJ7XCJVc2VySWRcIjpcIjU3OTkzZjY1LTFlNGItNDBlZS05ODhhLWNiYzRiZWRlYjJkZVwiLFwiTmFtZVwiOlwicm9vdFwiLFwiTGFzdFwiOlwiXCIsXCJDcmVhdGVEYXRlXCI6XCIyMDIxLTEwLTA1VDAwOjAyOjMyLjE2N1pcIixcIkNyZWF0ZUJ5XCI6XCJcIixcIlVwZGF0ZURhdGVcIjp7XCJUaW1lXCI6XCIwMDAxLTAxLTAxVDAwOjAwOjAwWlwiLFwiVmFsaWRcIjpmYWxzZX0sXCJVcGRhdGVCeVwiOlwiXCIsXCJJc0FjdGl2ZVwiOnRydWV9IiwiZXhwIjoxNjMzNDUwOTUzfQ.UbkZG1dxHKlLLQ-ooipo2yhy5vujZ3FCwIj7mzjXvGY
 
-###
-GET    http://localhost:8080/auth/login
-Authorization: Basic root:1234
 
-###
-POST   http://localhost:8080/auth/create
-Authorization: Basic admin:admin
+
+### Create
+POST   http://localhost:8081/address/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVU0VSX0lORk8iOiJ7XCJVc2VySWRcIjpcIjU3OTkzZjY1LTFlNGItNDBlZS05ODhhLWNiYzRiZWRlYjJkZVwiLFwiTmFtZVwiOlwicm9vdFwiLFwiTGFzdFwiOlwiXCIsXCJDcmVhdGVEYXRlXCI6XCIyMDIxLTEwLTA1VDAwOjAyOjMyLjE2N1pcIixcIkNyZWF0ZUJ5XCI6XCJcIixcIlVwZGF0ZURhdGVcIjp7XCJUaW1lXCI6XCIwMDAxLTAxLTAxVDAwOjAwOjAwWlwiLFwiVmFsaWRcIjpmYWxzZX0sXCJVcGRhdGVCeVwiOlwiXCIsXCJJc0FjdGl2ZVwiOnRydWV9IiwiZXhwIjoxNjMzNDUwOTUzfQ.UbkZG1dxHKlLLQ-ooipo2yhy5vujZ3FCwIj7mzjXvGY
 Content-Type: application/json
 
 {
-    "userName": "root1",
-    "password": "1234"
+  "Address": "Address 3",
+  "Lat": 1212,
+  "Long": null
 }
+
+### Update
+PUT   http://localhost:8081/address/update
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVU0VSX0lORk8iOiJ7XCJVc2VySWRcIjpcIjU3OTkzZjY1LTFlNGItNDBlZS05ODhhLWNiYzRiZWRlYjJkZVwiLFwiTmFtZVwiOlwicm9vdFwiLFwiTGFzdFwiOlwiXCIsXCJDcmVhdGVEYXRlXCI6XCIyMDIxLTEwLTA1VDAwOjAyOjMyLjE2N1pcIixcIkNyZWF0ZUJ5XCI6XCJcIixcIlVwZGF0ZURhdGVcIjp7XCJUaW1lXCI6XCIwMDAxLTAxLTAxVDAwOjAwOjAwWlwiLFwiVmFsaWRcIjpmYWxzZX0sXCJVcGRhdGVCeVwiOlwiXCIsXCJJc0FjdGl2ZVwiOnRydWV9IiwiZXhwIjoxNjMzNDUwOTUzfQ.UbkZG1dxHKlLLQ-ooipo2yhy5vujZ3FCwIj7mzjXvGY
+Content-Type: application/json
+
+{
+  "AddressId": "57256CA7-FCD9-42FB-878D-80053131C8FF",
+  "Address": "Address 2x",
+  "Lat": 1234,
+  "Long": 5678
+}
+
+### Delete 
+DELETE   http://localhost:8081/address/delete/A0636C1B-CE3E-4C3A-AA8B-778190FA42Cx
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVU0VSX0lORk8iOiJ7XCJVc2VySWRcIjpcIjU3OTkzZjY1LTFlNGItNDBlZS05ODhhLWNiYzRiZWRlYjJkZVwiLFwiTmFtZVwiOlwicm9vdFwiLFwiTGFzdFwiOlwiXCIsXCJDcmVhdGVEYXRlXCI6XCIyMDIxLTEwLTA1VDAwOjAyOjMyLjE2N1pcIixcIkNyZWF0ZUJ5XCI6XCJcIixcIlVwZGF0ZURhdGVcIjp7XCJUaW1lXCI6XCIwMDAxLTAxLTAxVDAwOjAwOjAwWlwiLFwiVmFsaWRcIjpmYWxzZX0sXCJVcGRhdGVCeVwiOlwiXCIsXCJJc0FjdGl2ZVwiOnRydWV9IiwiZXhwIjoxNjMzNDUwOTUzfQ.UbkZG1dxHKlLLQ-ooipo2yhy5vujZ3FCwIj7mzjXvGY

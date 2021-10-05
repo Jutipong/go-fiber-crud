@@ -8,6 +8,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gookit/validate"
 )
 
 //## ตัวอย่างการใช้งาน => util.JsonSerialize(payload)
@@ -51,11 +52,18 @@ func StringEmpty_SetDefault(input string, valueDefault string) string {
 	}
 }
 
-func GetErr(err error) (int, string) {
+func GetFiberErr(err error) (int, string) {
 	if err != nil {
 		e := err.(*fiber.Error)
 		return e.Code, e.Message
 	} else {
 		return enum.Ok, ""
 	}
+}
+
+func GetGookitError(v *validate.Validation) (errs []string) {
+	for fieldName := range v.Errors.All() {
+		errs = append(errs, fieldName)
+	}
+	return errs
 }
