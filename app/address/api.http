@@ -1,17 +1,2 @@
-###
-GET    http://localhost:8080/auth/login
-Authorization: Basic admin:admin
-
-###
-GET    http://localhost:8080/auth/login
-Authorization: Basic root:1234
-
-###
-POST   http://localhost:8080/auth/create
-Authorization: Basic admin:admin
-Content-Type: application/json
-
-{
-    "userName": "root1",
-    "password": "1234"
-}
+### Inquiry
+GET    http://localhost:8080/address/inquiry/A0636C1B-CE3E-4C3A-AA8B-778190FA42CC
