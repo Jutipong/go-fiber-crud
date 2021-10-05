@@ -24,7 +24,9 @@ require (
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/denisenkom/go-mssqldb v0.11.0 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
+	github.com/gofiber/jwt/v2 v2.2.7
 	github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe // indirect
 	github.com/gookit/filter v1.1.2 // indirect
 	github.com/gookit/goutil v0.3.15 // indirect

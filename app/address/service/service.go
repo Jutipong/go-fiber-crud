@@ -6,13 +6,14 @@ import (
 	"fiber-crud/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 type IService interface {
 	Inquiry(ctx *fiber.Ctx, req *model.Address) model.Inquiry_Response
-	// Create(ctx *fiber.Ctx, req *model.Address) (model.Address, error)
-	// Update(ctx *fiber.Ctx, req *model.Address) (model.Address, error)
-	// Delete(ctx *fiber.Ctx, req *model.Address) error
+	Create(ctx *fiber.Ctx, req *model.Address) model.Create_Response
+	Update(ctx *fiber.Ctx, req *model.Address) model.Update_Response
+	Delete(ctx *fiber.Ctx, req *model.Address) model.Delete_Response
 }
 
 type service struct {
@@ -25,8 +26,7 @@ func NewService(repo repository.IRepository) IService {
 
 func (s *service) Inquiry(ctx *fiber.Ctx, req *model.Address) model.Inquiry_Response {
 	// Validation
-	err := req.Inquiry_Validation(ctx)
-	if err != nil {
+	if err := req.Inquiry_Validation(ctx); err != nil {
 		return model.Inquiry_Response{Message: err.Error()}
 	}
 
@@ -37,5 +37,63 @@ func (s *service) Inquiry(ctx *fiber.Ctx, req *model.Address) model.Inquiry_Resp
 		return model.Inquiry_Response{Message: err.Error()}
 	}
 
-	return model.Inquiry_Response{Status: true, Datas: result}
+	return model.Inquiry_Response{Status: true, Datas: &result}
+}
+
+func (s *service) Create(ctx *fiber.Ctx, req *model.Address) (resutl model.Create_Response) {
+	// Validation
+	if err := req.Create_Validation(ctx); err != nil {
+		return model.Create_Response{Message: err.Error()}
+	}
+
+	// Init user request
+	userInfo := utils.GetUserInfo(ctx)
+	req.AddressId = uuid.New().String()
+	req.CreateBy = userInfo.UserId
+
+	// Call repository
+	if err := s.repo.Create(req); err != nil {
+		utils.LogErrCtx(ctx, err.Error())
+		return model.Create_Response{Message: err.Error()}
+	}
+
+	return model.Create_Response{Status: true, Datas: req}
+}
+
+func (s *service) Update(ctx *fiber.Ctx, req *model.Address) (resutl model.Update_Response) {
+	// Validation
+	if err := req.Update_Validation(ctx); err != nil {
+		return model.Update_Response{Message: err.Error()}
+	}
+
+	// Init user request
+	userInfo := utils.GetUserInfo(ctx)
+	req.UpdateBy = userInfo.UserId
+
+	// Call repository
+	if err := s.repo.Update(req); err != nil {
+		utils.LogErrCtx(ctx, err.Error())
+		return model.Update_Response{Message: err.Error()}
+	}
+
+	return model.Update_Response{Status: true, Datas: req}
+}
+
+func (s *service) Delete(ctx *fiber.Ctx, req *model.Address) (resutl model.Delete_Response) {
+	// Validation
+	if err := req.Delete_Validation(ctx); err != nil {
+		return model.Delete_Response{Message: err.Error()}
+	}
+
+	// Init user request
+	userInfo := utils.GetUserInfo(ctx)
+	req.UpdateBy = userInfo.UserId
+
+	// Call repository
+	if err := s.repo.Delete(req); err != nil {
+		utils.LogErrCtx(ctx, err.Error())
+		return model.Delete_Response{Message: err.Error()}
+	}
+
+	return model.Delete_Response{Status: true}
 }
