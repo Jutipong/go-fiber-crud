@@ -19,7 +19,7 @@ type repository struct {
 }
 
 func NewRepository(db *gorm.DB) IRepository {
-	return &repository{db.Debug()}
+	return &repository{db}
 }
 
 func (r *repository) Inquiry(address *model.Address) (result []model.Address, err error) {
