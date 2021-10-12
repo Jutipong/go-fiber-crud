@@ -7,6 +7,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+
+	"github.com/shopspring/decimal"
 )
 
 type IService interface {
@@ -14,6 +16,7 @@ type IService interface {
 	Create(ctx *fiber.Ctx, req *model.Address) model.Create_Response
 	Update(ctx *fiber.Ctx, req *model.Address) model.Update_Response
 	Delete(ctx *fiber.Ctx, req *model.Address) model.Delete_Response
+	TestDecimal(ctx *fiber.Ctx, req *model.TestDecimal_Request) model.TestDecimal_Response
 }
 
 type service struct {
@@ -96,4 +99,15 @@ func (s *service) Delete(ctx *fiber.Ctx, req *model.Address) (resutl model.Delet
 	}
 
 	return model.Delete_Response{Status: true}
+}
+
+func (s *service) TestDecimal(ctx *fiber.Ctx, req *model.TestDecimal_Request) model.TestDecimal_Response {
+	total := req.Number1.Add(req.Number2)
+	res := model.TestDecimal_Response{
+		Number1: req.Number1,
+		Number2: req.Number2,
+		Total:   decimal.NullDecimal{Decimal: total, Valid: true},
+	}
+	res.JsonNumber()
+	return res
 }

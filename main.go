@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/shopspring/decimal"
 )
 
 func init() {
@@ -17,6 +18,7 @@ func init() {
 }
 
 func main() {
+	decimal.MarshalJSONWithoutQuotes = true
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
 	app.Use(cors.New(cors.Config{AllowOrigins: "*", AllowMethods: "*", AllowHeaders: "*"}))
 

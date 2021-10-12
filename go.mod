@@ -2,7 +2,10 @@ module fiber-crud
 
 go 1.17
 
-require github.com/gofiber/fiber/v2 v2.19.0
+require (
+	github.com/gofiber/fiber/v2 v2.20.1
+	github.com/shopspring/decimal v1.2.0
+)
 
 require (
 	github.com/andybalholm/brotli v1.0.3 // indirect

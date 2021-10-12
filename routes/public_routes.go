@@ -16,6 +16,7 @@ func PublicRoutes(app *fiber.App) {
 	auth := app.Group("/address")
 	auth.Get("/inquiry/:id", controller.Inquiry)
 	auth.Post("/create", controller.Create)
+	auth.Post("/testdecimal", controller.TestDecimal)
 	auth.Put("/update", controller.Update)
 	auth.Delete("/delete/:id", controller.Delete)
 }
