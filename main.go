@@ -14,7 +14,7 @@ import (
 
 func init() {
 	config.InitialConfig()
-	config.InitialDB()
+	// config.InitialDB()
 }
 
 func main() {

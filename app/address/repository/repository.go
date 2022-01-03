@@ -9,9 +9,9 @@ import (
 
 type IRepository interface {
 	Inquiry(auth *model.Address) ([]model.Address, error)
-	// Create(auth *model.Address) error
-	// Update(auth *model.Address) error
-	// Delete(auth *model.Address) error
+	Create(auth *model.Address) error
+	Update(auth *model.Address) error
+	Delete(auth *model.Address) error
 }
 
 type repository struct {

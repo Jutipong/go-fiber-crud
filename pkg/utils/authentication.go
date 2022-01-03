@@ -12,6 +12,11 @@ type UserInfo struct {
 }
 
 func GetUserInfo(c *fiber.Ctx) UserInfo {
+	//for unit test
+	if c.Path() == "" {
+		return UserInfo{}
+	}
+
 	userInfo := c.Locals(enum.USER_INFO)
 	if userInfo != nil {
 		return userInfo.(UserInfo)
