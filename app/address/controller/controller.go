@@ -40,3 +40,11 @@ func (ct controller) Delete(ctx *fiber.Ctx) error {
 	req := model.Address{AddressId: ctx.Params("id")}
 	return ctx.JSON(ct.service.Delete(ctx, &req))
 }
+
+func (ct controller) TestDecimal(ctx *fiber.Ctx) error {
+	req := model.TestDecimal_Request{}
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(model.Create_Response{Message: err.Error()})
+	}
+	return ctx.JSON(ct.service.TestDecimal(ctx, &req))
+}

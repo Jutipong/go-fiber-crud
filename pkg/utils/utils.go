@@ -3,12 +3,12 @@ package utils
 import (
 	"encoding/json"
 	"fiber-crud/pkg/enum"
-	"fmt"
 	"strings"
 	"unicode/utf8"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gookit/validate"
+	"github.com/shopspring/decimal"
 )
 
 //## ตัวอย่างการใช้งาน => util.JsonSerialize(payload)
@@ -26,9 +26,12 @@ func JsonDeserialize(str string, st interface{}) {
 	json.Unmarshal([]byte(str), &st)
 }
 
-func ConvertFloat64ToJsonNumber(f float64) json.Number {
-	s := fmt.Sprintf("%.2f", f)
-	return json.Number(s)
+func DecimalToJsonNumber(f *decimal.Decimal, fixDigits int32) json.Number {
+	return json.Number(f.StringFixed(fixDigits))
+}
+
+func DecimalNullToJsonNumber(f *decimal.NullDecimal, fixDigits int32) (result json.Number) {
+	return json.Number(f.Decimal.StringFixed(fixDigits))
 }
 
 func Contains(slice *[]string, item string) bool {
