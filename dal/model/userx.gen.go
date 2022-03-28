@@ -12,16 +12,16 @@ const TableNameUserx = "Userx"
 
 // Userx mapped from table <Userx>
 type Userx struct {
-	ID           int64     `gorm:"column:id;type:bigint;primaryKey" json:"id"`
-	Name         string    `gorm:"column:name;type:nvarchar" json:"name"`
-	Email        string    `gorm:"column:email;type:nvarchar" json:"email"`
-	Age          int64     `gorm:"column:age;type:smallint" json:"age"`
-	Birthday     time.Time `gorm:"column:birthday;type:datetimeoffset" json:"birthday"`
-	MemberNumber string    `gorm:"column:member_number;type:nvarchar" json:"member_number"`
-	ActivatedAt  time.Time `gorm:"column:activated_at;type:datetimeoffset" json:"activated_at"`
-	CreatedAt    time.Time `gorm:"column:created_at;type:datetimeoffset" json:"created_at"`
-	UpdatedAt    time.Time `gorm:"column:updated_at;type:datetimeoffset" json:"updated_at"`
-	Tt           string    `gorm:"column:tt;type:nvarchar" json:"tt"`
+	ID           int64      `gorm:"column:id;type:bigint;primaryKey" json:"id"`
+	Name         *string    `gorm:"column:name;type:nvarchar" json:"name"`
+	Email        *string    `gorm:"column:email;type:nvarchar" json:"email"`
+	Age          *int64     `gorm:"column:age;type:smallint" json:"age"`
+	Birthday     *time.Time `gorm:"column:birthday;type:datetimeoffset" json:"birthday"`
+	MemberNumber *string    `gorm:"column:member_number;type:nvarchar" json:"member_number"`
+	ActivatedAt  *time.Time `gorm:"column:activated_at;type:datetimeoffset" json:"activated_at"`
+	CreatedAt    *time.Time `gorm:"column:created_at;type:datetimeoffset" json:"created_at"`
+	UpdatedAt    *time.Time `gorm:"column:updated_at;type:datetimeoffset" json:"updated_at"`
+	Tt           *string    `gorm:"column:tt;type:nvarchar" json:"tt"`
 }
 
 // TableName Userx's table name

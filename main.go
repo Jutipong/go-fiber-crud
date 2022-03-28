@@ -1,11 +1,15 @@
 package main
 
 import (
+	"encoding/json"
+	"fiber-crud/dal/model"
+	"fiber-crud/dal/query"
 	"fiber-crud/middleware"
 	"fiber-crud/pkg/config"
 	"fiber-crud/pkg/enum"
 	"fiber-crud/pkg/utils"
 	"fiber-crud/routes"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -18,6 +22,11 @@ func init() {
 	config.InitialDB()
 }
 
+type Result struct {
+	Name    string
+	Address string
+}
+
 func main() {
 	decimal.MarshalJSONWithoutQuotes = true
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
@@ -26,17 +35,21 @@ func main() {
 	// Middleware
 	app.Use(middleware.Logger)
 	// app.Use(middleware.Authorization())
-	genSQL()
+	// genSQL()
 
-	// q := query.Use(config.Db())
-	// address := q.Address
-	// user := q.User
-	// u, _ := user.Preload(address.AddressID).Find()
+	q := query.Use(config.Db())
+	address := q.Address
+	user := q.User
+	// u, _ := user.Preload(field.Associations).Find()
 	// fmt.Println(u)
 
-	// a, _ := q.Address.Preload(uu.AddressID).Find()
+	// a, _ := q.Address.Preload(field.Associations).Find()
 	// fmt.Println(a)
-
+	var result model.User
+	user.Select(user.ALL).
+		LeftJoin(address, address.AddressID.EqCol(user.AddressID)).Scan(&result)
+	str, _ := json.Marshal(&result)
+	fmt.Println(string(str))
 	// lat, err := decimal.NewFromString(string(u.Lat))
 	// if err != nil {
 	// 	fmt.Println(err)

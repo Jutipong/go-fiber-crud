@@ -11,22 +11,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var (
-	Q       = new(Query)
-	Address *address
-	Auth    *auth
-	User    *user
-	Userx   *userx
-)
-
-func SetDefault(db *gorm.DB) {
-	*Q = *Use(db)
-	Address = &Q.Address
-	Auth = &Q.Auth
-	User = &Q.User
-	Userx = &Q.Userx
-}
-
 func Use(db *gorm.DB) *Query {
 	return &Query{
 		db:      db,

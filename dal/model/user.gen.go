@@ -12,15 +12,15 @@ const TableNameUser = "User"
 
 // User mapped from table <User>
 type User struct {
-	UserID     string    `gorm:"column:UserId;type:nvarchar;not null;default:newid()" json:"UserId"`
-	Name       string    `gorm:"column:Name;type:nvarchar;not null" json:"Name"`
-	Last_      string    `gorm:"column:Last;type:nvarchar" json:"Last"`
-	CreateDate time.Time `gorm:"column:CreateDate;type:datetime;not null;default:getdate()" json:"CreateDate"`
-	CreateBy   string    `gorm:"column:CreateBy;type:nvarchar;not null" json:"CreateBy"`
-	UpdateDate time.Time `gorm:"column:UpdateDate;type:datetime" json:"UpdateDate"`
-	UpdateBy   string    `gorm:"column:UpdateBy;type:nvarchar" json:"UpdateBy"`
-	IsActive   bool      `gorm:"column:IsActive;type:bit;not null;default:1" json:"IsActive"`
-	AddressID  string    `gorm:"column:AddressId;type:nvarchar" json:"AddressId"`
+	UserID     string     `gorm:"column:UserId;type:nvarchar;not null;default:newid()" json:"UserId"`
+	Name       string     `gorm:"column:Name;type:nvarchar;not null" json:"Name"`
+	Last_      *string    `gorm:"column:Last;type:nvarchar" json:"Last"`
+	CreateDate time.Time  `gorm:"column:CreateDate;type:datetime;not null;default:getdate()" json:"CreateDate"`
+	CreateBy   string     `gorm:"column:CreateBy;type:nvarchar;not null" json:"CreateBy"`
+	UpdateDate *time.Time `gorm:"column:UpdateDate;type:datetime" json:"UpdateDate"`
+	UpdateBy   *string    `gorm:"column:UpdateBy;type:nvarchar" json:"UpdateBy"`
+	IsActive   bool       `gorm:"column:IsActive;type:bit;not null;default:1" json:"IsActive"`
+	AddressID  *string    `gorm:"column:AddressId;type:nvarchar" json:"AddressId"`
 }
 
 // TableName User's table name
