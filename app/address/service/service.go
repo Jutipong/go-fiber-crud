@@ -109,6 +109,8 @@ func (s service) TestDecimal(ctx *fiber.Ctx, req *model.TestDecimal_Request) mod
 		Number2: req.Number2,
 		Total:   decimal.NullDecimal{Decimal: total, Valid: true},
 	}
+	// nullD := decimal.NullDecimal{Valid: true, Decimal: decimal.Decimal{}}
+	// fmt.Println(nullD)
 	res.JsonNumber()
 	return res
 }

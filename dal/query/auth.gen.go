@@ -34,6 +34,7 @@ func newAuth(db *gorm.DB) auth {
 	_auth.UpdateBy = field.NewString(tableName, "UpdateBy")
 	_auth.IsActive = field.NewBool(tableName, "IsActive")
 	_auth.UserID = field.NewString(tableName, "UserId")
+	_auth.Amount = field.NewField(tableName, "Amount")
 
 	_auth.fillFieldMap()
 
@@ -53,6 +54,7 @@ type auth struct {
 	UpdateBy   field.String
 	IsActive   field.Bool
 	UserID     field.String
+	Amount     field.Field
 
 	fieldMap map[string]field.Expr
 }
@@ -78,6 +80,7 @@ func (a *auth) updateTableName(table string) *auth {
 	a.UpdateBy = field.NewString(table, "UpdateBy")
 	a.IsActive = field.NewBool(table, "IsActive")
 	a.UserID = field.NewString(table, "UserId")
+	a.Amount = field.NewField(table, "Amount")
 
 	a.fillFieldMap()
 
@@ -94,7 +97,7 @@ func (a *auth) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *auth) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 9)
+	a.fieldMap = make(map[string]field.Expr, 10)
 	a.fieldMap["Id"] = a.ID
 	a.fieldMap["UserName"] = a.UserName
 	a.fieldMap["Password"] = a.Password
@@ -104,6 +107,7 @@ func (a *auth) fillFieldMap() {
 	a.fieldMap["UpdateBy"] = a.UpdateBy
 	a.fieldMap["IsActive"] = a.IsActive
 	a.fieldMap["UserId"] = a.UserID
+	a.fieldMap["Amount"] = a.Amount
 }
 
 func (a auth) clone(db *gorm.DB) auth {
