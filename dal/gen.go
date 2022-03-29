@@ -1,38 +1,22 @@
 package main
 
 import (
+	"encoding/json"
 	"fiber-crud/pkg/config"
-	"strings"
 
 	"gorm.io/gen"
 )
 
 func init() {
-
-}
-
-// dataMap mapping relationship
-var dataMap = map[string]func(detailType string) (dataType string){
-	// int mapping
-	"int":   func(detailType string) (dataType string) { return "int32" },
-	"int32": func(detailType string) (dataType string) { return "int32" },
-	"int64": func(detailType string) (dataType string) { return "int32" },
-
-	// bool mapping
-	"tinyint": func(detailType string) (dataType string) {
-		if strings.HasPrefix(detailType, "tinyint(1)") {
-			return "bool"
-		}
-		return "byte"
-	},
+	config.InitialConfig()
+	config.InitialDB()
 }
 
 func main() {
 	g := gen.NewGenerator(gen.Config{
-		OutPath:      "./dal/query",
-		ModelPkgPath: "./dal/model",
+		OutPath:      "./query",
+		ModelPkgPath: "./model",
 		Mode:         gen.WithoutContext,
-
 		// generate model global configuration
 		FieldNullable:     true, // generate pointer when field is nullable
 		FieldCoverable:    true, // generate pointer when field has default value
@@ -42,19 +26,61 @@ func main() {
 
 	g.UseDB(config.Db())
 
-	// specify diy mapping relationship
-	g.WithDataTypeMap(dataMap)
+	byt, err := json.Marshal(g.GenerateAllTable())
+	if err != nil {
+		panic("All Talble json Marshal fail.")
+	}
 
-	// generate all field with json tag end with "_example"
-	// g.WithJSONTagNameStrategy(func(c string) string { return c + "_example" })
+	var tableNames tableNameAll
+	err = json.Unmarshal(byt, &tableNames)
+	if err != nil {
+		panic("All Talble json Unmarshal fail.")
+	}
 
-	mytable := g.GenerateModel("Address")
-	g.ApplyBasic(mytable)
-	// g.ApplyBasic(g.GenerateAllTable()...) // generate all table in db server
+	//change type (*[]uint8 and other) to decimal
+	for _, table := range tableNames {
+		currentTable := g.GenerateModel(table.TableName)
+		for _, i := range currentTable.Fields {
+			if i.Type == "*[]uint8" {
+				i.Type = "decimal.Decimal"
+			}
+		}
+		g.ApplyBasic(currentTable)
+	}
+
+	// g.ApplyBasic(mytable)
+	// g.ApplyBasic(g.GenerateAllTable()...)
 
 	g.Execute()
 }
 
-// var dataMap = map[string]func(detailType string) (dataType string){
-// 	"uint8 ": func(detailType string) (dataType string) { return "float64" },
-// }
+type tableNameAll []struct {
+	// GenBaseStruct bool   `json:"GenBaseStruct"`
+	// FileName      string `json:"FileName"`
+	// S             string `json:"S"`
+	// NewStructName string `json:"NewStructName"`
+	// StructName    string `json:"StructName"`
+	TableName string `json:"TableName"`
+	// StructInfo    struct {
+	// 	PkgPath   string `json:"PkgPath"`
+	// 	Package   string `json:"Package"`
+	// 	Name      string `json:"Name"`
+	// 	Type      string `json:"Type"`
+	// 	IsArray   bool   `json:"IsArray"`
+	// 	IsPointer bool   `json:"IsPointer"`
+	// } `json:"StructInfo"`
+	// Fields []struct {
+	// 	Name             string      `json:"Name"`
+	// 	Type             string      `json:"Type"`
+	// 	ColumnName       string      `json:"ColumnName"`
+	// 	ColumnComment    string      `json:"ColumnComment"`
+	// 	MultilineComment bool        `json:"MultilineComment"`
+	// 	JSONTag          string      `json:"JSONTag"`
+	// 	GORMTag          string      `json:"GORMTag"`
+	// 	NewTag           string      `json:"NewTag"`
+	// 	OverwriteTag     string      `json:"OverwriteTag"`
+	// 	Relation         interface{} `json:"Relation"`
+	// } `json:"Fields"`
+	// Source         int         `json:"Source"`
+	// ImportPkgPaths interface{} `json:"ImportPkgPaths"`
+}

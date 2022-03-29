@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fiber-crud/middleware"
 	"fiber-crud/pkg/config"
 	"fiber-crud/pkg/enum"
@@ -12,12 +11,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/shopspring/decimal"
-	"gorm.io/gen"
-	// "gorm.io/gen/internal/model"
-	// "gorm.io/gen"
-	// "gorm.io/gen/internal/check"
-	// "github.com/go-gorm/gen"
-	// "gorm.io/gen/internal/check"
 )
 
 func init() {
@@ -38,7 +31,7 @@ func main() {
 	// Middleware
 	app.Use(middleware.Logger)
 	// app.Use(middleware.Authorization())
-	genSQL()
+	// genSQL()
 
 	// q := query.Use(config.Db())
 	// // address := q.Address
@@ -78,75 +71,44 @@ var dataMap = map[string]func(detailType string) (dataType string){
 	},
 }
 
-func genSQL() {
-	g := gen.NewGenerator(gen.Config{
-		OutPath:      "./dal/query",
-		ModelPkgPath: "./dal/model",
-		Mode:         gen.WithoutContext,
-		// generate model global configuration
-		FieldNullable:     true, // generate pointer when field is nullable
-		FieldCoverable:    true, // generate pointer when field has default value
-		FieldWithIndexTag: true, // generate with gorm index tag
-		FieldWithTypeTag:  true, // generate with gorm column type tag
-	})
+// func genSQL() {
+// 	g := gen.NewGenerator(gen.Config{
+// 		OutPath:      "./dal/query",
+// 		ModelPkgPath: "./dal/model",
+// 		Mode:         gen.WithoutContext,
+// 		// generate model global configuration
+// 		FieldNullable:     true, // generate pointer when field is nullable
+// 		FieldCoverable:    true, // generate pointer when field has default value
+// 		FieldWithIndexTag: true, // generate with gorm index tag
+// 		FieldWithTypeTag:  true, // generate with gorm column type tag
+// 	})
 
-	g.UseDB(config.Db())
+// 	g.UseDB(config.Db())
 
-	//change type (*[]uint8 and other) to decimal
-	byt, err := json.Marshal(g.GenerateAllTable())
-	if err != nil {
-		panic("All Talble json Marshal fail.")
-	}
+// 	//change type (*[]uint8 and other) to decimal
+// 	byt, err := json.Marshal(g.GenerateAllTable())
+// 	if err != nil {
+// 		panic("All Talble json Marshal fail.")
+// 	}
 
-	var tableNames tableNameAll
-	err = json.Unmarshal(byt, &tableNames)
-	if err != nil {
-		panic("All Talble json Unmarshal fail.")
-	}
+// 	var tableNames tableNameAll
+// 	err = json.Unmarshal(byt, &tableNames)
+// 	if err != nil {
+// 		panic("All Talble json Unmarshal fail.")
+// 	}
 
-	for _, table := range tableNames {
-		currentTable := g.GenerateModel(table.TableName)
-		for _, i := range currentTable.Fields {
-			if i.Type == "*[]uint8" {
-				i.Type = "decimal.Decimal"
-			}
-		}
-		g.ApplyBasic(currentTable)
-	}
+// 	for _, table := range tableNames {
+// 		currentTable := g.GenerateModel(table.TableName)
+// 		for _, i := range currentTable.Fields {
+// 			if i.Type == "*[]uint8" {
+// 				i.Type = "decimal.Decimal"
+// 			}
+// 		}
+// 		g.ApplyBasic(currentTable)
+// 	}
 
-	// g.ApplyBasic(mytable)
-	// g.ApplyBasic(g.GenerateAllTable()...) // generate all table in db server
+// 	// g.ApplyBasic(mytable)
+// 	// g.ApplyBasic(g.GenerateAllTable()...) // generate all table in db server
 
-	g.Execute()
-}
-
-type tableNameAll []struct {
-	// GenBaseStruct bool   `json:"GenBaseStruct"`
-	// FileName      string `json:"FileName"`
-	// S             string `json:"S"`
-	// NewStructName string `json:"NewStructName"`
-	// StructName    string `json:"StructName"`
-	TableName string `json:"TableName"`
-	// StructInfo    struct {
-	// 	PkgPath   string `json:"PkgPath"`
-	// 	Package   string `json:"Package"`
-	// 	Name      string `json:"Name"`
-	// 	Type      string `json:"Type"`
-	// 	IsArray   bool   `json:"IsArray"`
-	// 	IsPointer bool   `json:"IsPointer"`
-	// } `json:"StructInfo"`
-	// Fields []struct {
-	// 	Name             string      `json:"Name"`
-	// 	Type             string      `json:"Type"`
-	// 	ColumnName       string      `json:"ColumnName"`
-	// 	ColumnComment    string      `json:"ColumnComment"`
-	// 	MultilineComment bool        `json:"MultilineComment"`
-	// 	JSONTag          string      `json:"JSONTag"`
-	// 	GORMTag          string      `json:"GORMTag"`
-	// 	NewTag           string      `json:"NewTag"`
-	// 	OverwriteTag     string      `json:"OverwriteTag"`
-	// 	Relation         interface{} `json:"Relation"`
-	// } `json:"Fields"`
-	// Source         int         `json:"Source"`
-	// ImportPkgPaths interface{} `json:"ImportPkgPaths"`
-}
+// 	g.Execute()
+// }
