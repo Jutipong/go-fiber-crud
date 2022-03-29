@@ -1,8 +1,8 @@
 package service
 
 import (
-	"fiber-crud/app/address/model"
-	"fiber-crud/app/address/repository"
+	"fiber-crud/features/address/model"
+	"fiber-crud/features/address/repository"
 	"testing"
 
 	"github.com/gofiber/fiber/v2"

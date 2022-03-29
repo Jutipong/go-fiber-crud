@@ -53,7 +53,9 @@ func InitialConfig() {
 	v.SetEnvPrefix("")
 	v.AutomaticEnv()
 	v.AddConfigPath(".")
+	v.AddConfigPath("..")
 	v.AddConfigPath("./")
+	v.AddConfigPath("../")
 	if err := v.ReadInConfig(); err != nil {
 		log.Panicln(err)
 		panic(err)

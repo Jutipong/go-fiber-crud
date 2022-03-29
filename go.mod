@@ -8,6 +8,16 @@ require (
 )
 
 require (
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	golang.org/x/mod v0.5.1 // indirect
+	golang.org/x/tools v0.1.9 // indirect
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	gorm.io/datatypes v1.0.5 // indirect
+	gorm.io/driver/mysql v1.3.2 // indirect
+	gorm.io/hints v1.1.0 // indirect
+)
+
+require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.0
 	github.com/google/uuid v1.3.0
@@ -61,4 +71,5 @@ require (
 	github.com/golang-sql/sqlexp v0.0.0-20170517235910-f1bb20e5a188 // indirect
 	github.com/google/go-cmp v0.5.7 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	gorm.io/gen v0.2.43
 )
