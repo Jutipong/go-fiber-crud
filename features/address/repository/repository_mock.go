@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"fiber-crud/app/address/model"
+	"fiber-crud/features/address/model"
 
 	"github.com/stretchr/testify/mock"
 )

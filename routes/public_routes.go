@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"fiber-crud/app/address/controller"
-	"fiber-crud/app/address/repository"
-	"fiber-crud/app/address/service"
+	"fiber-crud/features/address/controller"
+	"fiber-crud/features/address/repository"
+	"fiber-crud/features/address/service"
 	"fiber-crud/pkg/config"
 
 	"github.com/gofiber/fiber/v2"

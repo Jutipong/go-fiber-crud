@@ -1,8 +1,8 @@
 package service
 
 import (
-	"fiber-crud/app/address/model"
-	"fiber-crud/app/address/repository"
+	"fiber-crud/features/address/model"
+	"fiber-crud/features/address/repository"
 	"fiber-crud/pkg/utils"
 
 	// "fiber-crud/pkg/utils"
@@ -109,6 +109,8 @@ func (s service) TestDecimal(ctx *fiber.Ctx, req *model.TestDecimal_Request) mod
 		Number2: req.Number2,
 		Total:   decimal.NullDecimal{Decimal: total, Valid: true},
 	}
+	// nullD := decimal.NullDecimal{Valid: true, Decimal: decimal.Decimal{}}
+	// fmt.Println(nullD)
 	res.JsonNumber()
 	return res
 }

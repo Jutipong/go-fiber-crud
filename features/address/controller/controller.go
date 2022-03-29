@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"fiber-crud/app/address/model"
-	"fiber-crud/app/address/service"
+	"fiber-crud/features/address/model"
+	"fiber-crud/features/address/service"
 
 	"github.com/gofiber/fiber/v2"
 )
