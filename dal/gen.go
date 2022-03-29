@@ -14,8 +14,8 @@ func init() {
 
 func main() {
 	g := gen.NewGenerator(gen.Config{
-		OutPath:      "./query",
-		ModelPkgPath: "./model",
+		OutPath:      "./dal/query",
+		ModelPkgPath: "./dal/model",
 		Mode:         gen.WithoutContext,
 		// generate model global configuration
 		FieldNullable:     true, // generate pointer when field is nullable
