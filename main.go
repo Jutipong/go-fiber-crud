@@ -27,7 +27,7 @@ func main() {
 	decimal.MarshalJSONWithoutQuotes = true
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
 	app.Use(cors.New(cors.Config{AllowOrigins: "*", AllowMethods: "*", AllowHeaders: "*"}))
-
+	//test
 	// Middleware
 	app.Use(middleware.Logger)
 	// app.Use(middleware.Authorization())
