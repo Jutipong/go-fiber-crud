@@ -15,7 +15,7 @@ func init() {
 func main() {
 	g := gen.NewGenerator(gen.Config{
 		OutPath:      "./dal/query",
-		ModelPkgPath: "./dal/model",
+		ModelPkgPath: "./dal/schema",
 		Mode:         gen.WithoutContext,
 		// generate model global configuration
 		FieldNullable:     true, // generate pointer when field is nullable
@@ -38,18 +38,18 @@ func main() {
 	}
 
 	//change type (*[]uint8 and other) to decimal
-	for _, table := range tableNames {
-		currentTable := g.GenerateModel(table.TableName)
-		for _, i := range currentTable.Fields {
-			if i.Type == "*[]uint8" {
-				i.Type = "decimal.Decimal"
-			}
-		}
-		g.ApplyBasic(currentTable)
-	}
+	// for _, table := range tableNames {
+	// 	currentTable := g.GenerateModel(table.TableName)
+	// 	for _, i := range currentTable.Fields {
+	// 		if i.Type == "*[]uint8" {
+	// 			i.Type = "decimal.Decimal"
+	// 		}
+	// 	}
+	// 	g.ApplyBasic(currentTable)
+	// }
 
 	// g.ApplyBasic(mytable)
-	// g.ApplyBasic(g.GenerateAllTable()...)
+	g.ApplyBasic(g.GenerateAllTable()...)
 
 	g.Execute()
 }
