@@ -2,11 +2,10 @@ package main
 
 import (
 	"fiber-crud/pkg/config"
-	"fiber-crud/pkg/enum"
+	"fiber-crud/pkg/middleware"
 	"fiber-crud/pkg/utils"
 	"fiber-crud/routes"
 
-	"github.com/gofiber/fiber/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	// "github.com/shopspring/decimal"
@@ -15,11 +14,6 @@ import (
 func init() {
 	config.InitialConfig()
 	config.InitialDB()
-}
-
-type Result struct {
-	Name    string
-	Address string
 }
 
 func main() {
@@ -36,10 +30,5 @@ func main() {
 	routes.PublicRoutes(app)
 	routes.NotFoundRoute(app)
 
-	_configEnv := config.Server()
-	if _configEnv.Env_Mode == enum.ModeDebug {
-		utils.StartServer(app)
-	} else {
-		utils.StartServerWithGracefulShutdown(app)
-	}
+	utils.StartServerWithGracefulShutdown(app)
 }

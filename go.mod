@@ -3,17 +3,13 @@ module fiber-crud
 go 1.19
 
 require (
-	github.com/gofiber/fiber v1.14.6
 	github.com/gofiber/fiber/v2 v2.36.0
 	github.com/shopspring/decimal v1.3.1
 )
 
 require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
-	github.com/gofiber/utils v0.1.2 // indirect
 	github.com/gookit/color v1.5.1 // indirect
-	github.com/gorilla/schema v1.2.0 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
