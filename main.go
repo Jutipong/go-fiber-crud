@@ -2,7 +2,6 @@ package main
 
 import (
 	"fiber-crud/pkg/config"
-	"fiber-crud/pkg/middleware"
 	"fiber-crud/pkg/utils"
 	"fiber-crud/routes"
 
@@ -22,7 +21,7 @@ func main() {
 	app.Use(cors.New(cors.Config{AllowOrigins: "*", AllowMethods: "*", AllowHeaders: "*"}))
 
 	// Middleware
-	app.Use(middleware.Logger)
+	// app.Use(middleware.Logger)
 	// app.Use(middleware.Authorization())
 	// genSQL()
 

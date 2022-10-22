@@ -5,15 +5,18 @@ go get
 ```
 
 ## Auto Generate Database(ge-gen)
+
 ```bash
-go run dal/gen.go
+go run dal/main.go
 ```
 
 ## Start Project
+
 - F5 (Debug)
 - gomon .
 
 ## Extension vs code
+
 - Go
 - Error Lens
 - Go Test Explorer
@@ -21,4 +24,5 @@ go run dal/gen.go
 - YAML
 
 ## Test Call api
-- file *.http ใช้สำหรับเรียก api 
+
+- file \*.http ใช้สำหรับเรียก api

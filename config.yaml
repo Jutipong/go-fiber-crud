@@ -5,4 +5,4 @@ data:
   DATABASE_HOST: Localhost
   DATABASE_USER: sa
   DATABASE_PASSWORD: p@ssw0rd
-  DATABASE_NAME: Test
+  DATABASE_NAME: simple-db

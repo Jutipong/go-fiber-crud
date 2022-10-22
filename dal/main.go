@@ -14,9 +14,9 @@ func init() {
 
 func main() {
 	g := gen.NewGenerator(gen.Config{
-		OutPath:      "./dal/query",
 		ModelPkgPath: "./dal/schema",
-		Mode:         gen.WithoutContext,
+		OutPath:      "./dal/query",
+		// Mode:         gen.WithoutContext,
 		// generate model global configuration
 		FieldNullable:     true, // generate pointer when field is nullable
 		FieldCoverable:    true, // generate pointer when field has default value
@@ -34,7 +34,7 @@ func main() {
 	var tableNames tableNameAll
 	err = json.Unmarshal(byt, &tableNames)
 	if err != nil {
-		panic("All Talble json Unmarshal fail.")
+		panic("All Table json Unmarshal fail.")
 	}
 
 	//change type (*[]uint8 and other) to decimal
@@ -48,7 +48,7 @@ func main() {
 	// 	g.ApplyBasic(currentTable)
 	// }
 
-	// g.ApplyBasic(mytable)
+	// g.ApplyBasic(my table)
 	g.ApplyBasic(g.GenerateAllTable()...)
 
 	g.Execute()
