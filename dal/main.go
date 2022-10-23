@@ -28,7 +28,7 @@ func main() {
 
 	byt, err := json.Marshal(g.GenerateAllTable())
 	if err != nil {
-		panic("All Talble json Marshal fail.")
+		panic("All Table json Marshal fail.")
 	}
 
 	var tableNames tableNameAll
