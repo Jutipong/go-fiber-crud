@@ -3,6 +3,7 @@ package main
 import (
 	"fiber-crud/middleware"
 	"fiber-crud/pkg/config"
+	"fiber-crud/pkg/database"
 	"fiber-crud/pkg/enum"
 	"fiber-crud/pkg/utils"
 	"fiber-crud/routes"
@@ -14,7 +15,7 @@ import (
 
 func init() {
 	config.InitialConfig()
-	config.InitialDB()
+	database.InitialDB()
 }
 
 type Result struct {

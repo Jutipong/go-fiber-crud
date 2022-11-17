@@ -4,13 +4,13 @@ import (
 	"fiber-crud/features/address/controller"
 	"fiber-crud/features/address/repository"
 	"fiber-crud/features/address/service"
-	"fiber-crud/pkg/config"
+	"fiber-crud/pkg/database"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func PublicRoutes(app *fiber.App) {
-	repository := repository.NewRepository(config.Db())
+	repository := repository.NewRepository(database.Db())
 	service := service.NewService(repository)
 	controller := controller.NewController(service)
 	auth := app.Group("/address")
