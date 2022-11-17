@@ -6,7 +6,6 @@ import (
 	"fiber-crud/pkg/enum"
 	"fiber-crud/pkg/utils"
 	"fiber-crud/routes"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -57,19 +56,19 @@ func main() {
 	}
 }
 
-// dataMap mapping relationship
-var dataMap = map[string]func(detailType string) (dataType string){
-	// int mapping
-	"int": func(detailType string) (dataType string) { return "int32" },
+// // dataMap mapping relationship
+// var dataMap = map[string]func(detailType string) (dataType string){
+// 	// int mapping
+// 	"int": func(detailType string) (dataType string) { return "int32" },
 
-	// bool mapping
-	"tinyint": func(detailType string) (dataType string) {
-		if strings.HasPrefix(detailType, "tinyint(1)") {
-			return "bool"
-		}
-		return "byte"
-	},
-}
+// 	// bool mapping
+// 	"tinyint": func(detailType string) (dataType string) {
+// 		if strings.HasPrefix(detailType, "tinyint(1)") {
+// 			return "bool"
+// 		}
+// 		return "byte"
+// 	},
+// }
 
 // func genSQL() {
 // 	g := gen.NewGenerator(gen.Config{
