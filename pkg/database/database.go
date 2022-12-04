@@ -59,7 +59,7 @@ func InitialDB() {
 	}
 	_db = db
 	//Auto Migrate
-	db.AutoMigrate(&Customer{})
+	// db.AutoMigrate(&Customer{})
 }
 
 func getConfigDb() string {

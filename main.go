@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fiber-crud/pkg/config"
 	"fiber-crud/pkg/database"
 	"fmt"
@@ -9,15 +10,29 @@ import (
 	"github.com/google/uuid"
 )
 
+var dataLength = 1000
+
 func main() {
 	config.InitialConfig()
 	database.InitialDB()
 	//
+	BunTest()
 	GormTest()
 }
 
 func GormTest() {
-	data := MockData()
+	data := []database.Customer{}
+	for i := 0; i < dataLength; i++ {
+		data = append(data, database.Customer{
+			Id:          uuid.NewString(),
+			Name:        fmt.Sprintf("Name: %v", i),
+			Email:       fmt.Sprintf("Email: %v", i),
+			Age:         i,
+			CreatedDate: nil,
+			IsActive:    true,
+		})
+	}
+
 	db := database.Db()
 
 	start := time.Now()
@@ -27,29 +42,13 @@ func GormTest() {
 	}
 
 	end := time.Since(start)
-	fmt.Println(fmt.Sprintf("insert data: %v record time: %.2f:%.2f:%v", len(data), end.Hours(), end.Minutes(), end.Milliseconds()))
+	fmt.Println(fmt.Sprintf("Gorm => insert data: %v record time: %.2f:%.2f:%v", len(data), end.Hours(), end.Minutes(), end.Milliseconds()))
 }
 
-// func BunTest() {
-// 	data := MockData()
-// 	db := database.InitDbBun()
-
-// 	res, err := db.NewInsert().Model(&data).Exec(context.Background())
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	fmt.Println(res)
-
-// 	start := time.Now()
-
-// 	end := time.Since(start)
-// 	fmt.Println(fmt.Sprintf("insert data: %v record time: %.2f:%.2f:%v", len(data), end.Hours(), end.Minutes(), end.Milliseconds()))
-// }
-
-func MockData() []database.Customer {
-	result := []database.Customer{}
-	for i := 0; i < 100; i++ {
-		result = append(result, database.Customer{
+func BunTest() {
+	data := []database.CustomerBun{}
+	for i := 0; i < dataLength; i++ {
+		data = append(data, database.CustomerBun{
 			Id:          uuid.NewString(),
 			Name:        fmt.Sprintf("Name: %v", i),
 			Email:       fmt.Sprintf("Email: %v", i),
@@ -58,5 +57,17 @@ func MockData() []database.Customer {
 			IsActive:    true,
 		})
 	}
-	return result
+
+	db := database.InitDbBun()
+	len := len(data)
+
+	start := time.Now()
+
+	_, err := db.NewInsert().Model(&data).Exec(context.Background())
+	if err != nil {
+		panic(err)
+	}
+
+	end := time.Since(start)
+	fmt.Println(fmt.Sprintf("Bun => insert data: %v record time: %.2f:%.2f:%v", len, end.Hours(), end.Minutes(), end.Milliseconds()))
 }

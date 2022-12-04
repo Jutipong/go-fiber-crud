@@ -5,6 +5,8 @@ go 1.19
 require (
 	github.com/gofiber/fiber/v2 v2.40.1
 	github.com/shopspring/decimal v1.3.1
+	github.com/uptrace/bun v1.1.9
+	github.com/uptrace/bun/dialect/mssqldialect v1.1.9
 )
 
 require (
@@ -61,4 +63,8 @@ require (
 	github.com/microsoft/go-mssqldb v0.17.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
+	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
+	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
+	golang.org/x/mod v0.7.0 // indirect
 )
