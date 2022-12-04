@@ -41,7 +41,10 @@ func AuthSuccess(c *fiber.Ctx) error {
 		utils.JsonDeserialize(fmt.Sprint(claims[enum.USER_INFO]), &userInfo)
 		userInfo.TransactionId = uuid.New().String()
 		c.Locals(enum.USER_INFO, userInfo)
-		c.Next()
+
+		if err := c.Next(); err != nil {
+			panic(err)
+		}
 		return nil
 	}
 

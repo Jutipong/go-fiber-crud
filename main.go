@@ -50,7 +50,7 @@ func GormTest(db *gorm.DB) {
 	}
 
 	end := time.Since(start)
-	fmt.Println(fmt.Sprintf("Gorm => insert data: %v record time: %.2f:%.2f:%v", len(*data), end.Hours(), end.Minutes(), end.Milliseconds()))
+	fmt.Printf("Gorm => insert data: %v record time: %.2f:%.2f:%v", len(*data), end.Hours(), end.Minutes(), end.Milliseconds())
 }
 
 func BunTest() {
@@ -77,5 +77,5 @@ func BunTest() {
 	}
 
 	end := time.Since(start)
-	fmt.Println(fmt.Sprintf("Bun => insert data: %v record time: %.2f:%.2f:%v", len, end.Hours(), end.Minutes(), end.Milliseconds()))
+	fmt.Printf("Bun => insert data: %v record time: %.2f:%.2f:%v", len, end.Hours(), end.Minutes(), end.Milliseconds())
 }

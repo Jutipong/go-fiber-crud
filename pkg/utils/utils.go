@@ -11,7 +11,7 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-//## ตัวอย่างการใช้งาน => util.JsonSerialize(payload)
+// ## ตัวอย่างการใช้งาน => util.JsonSerialize(payload)
 func JsonSerialize(payload interface{}) string {
 	b, err := json.Marshal(&payload)
 	if err != nil {
@@ -21,9 +21,11 @@ func JsonSerialize(payload interface{}) string {
 	}
 }
 
-//## ตัวอย่างการใช้งาน => util.JsonDeserialize(str, &result)
+// ## ตัวอย่างการใช้งาน => util.JsonDeserialize(str, &result)
 func JsonDeserialize(str string, st interface{}) {
-	json.Unmarshal([]byte(str), &st)
+	if err := json.Unmarshal([]byte(str), &st); err != nil {
+		panic(err)
+	}
 }
 
 func DecimalToJsonNumber(f *decimal.Decimal, fixDigits int32) json.Number {

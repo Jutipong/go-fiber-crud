@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-//## map file config.yaml
+// ## map file config.yaml
 type data struct {
 	//## Server
 	ENV_MODE     string
@@ -22,7 +22,7 @@ type data struct {
 	DATABASE_AUTO_GEN_GORM bool
 }
 
-//## Server
+// ## Server
 type server struct {
 	Env_Mode     string
 	Port         string
@@ -60,7 +60,9 @@ func InitialConfig() {
 		log.Panicln(err)
 		panic(err)
 	}
-	v.Unmarshal(&config)
+	if err := v.Unmarshal(&config); err != nil {
+		panic(err)
+	}
 }
 
 func Server() server {

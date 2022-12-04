@@ -10,10 +10,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-//===============================================================//
-//=========== ใช้สำหรับ Track Logs => request and respose =========//
-//==============================================================//
-type transationLogs struct {
+// ===============================================================//
+// =========== ใช้สำหรับ Track Logs => request and respose =========//
+// ==============================================================//
+type transactionLogs struct {
 	TransactionId string                 `json:"TransactionId,omitempty"`
 	UserId        string                 `json:"UserId,omitempty"`
 	Level         string                 `json:"Level"`
@@ -27,19 +27,25 @@ type transationLogs struct {
 }
 
 func Logger(c *fiber.Ctx) error {
-	var tLog transationLogs
+	var tLog transactionLogs
 	var request map[string]interface{}
-	c.BodyParser(&request)
+	if err := c.BodyParser(&request); err != nil {
+		return err
+	}
 	//set log
 	tLog.Method = c.Method()
 	tLog.RequestURI = c.OriginalURL()
 	tLog.Request = request
 
-	err := c.Next()
+	if err := c.Next(); err != nil {
+		return err
+	}
 
 	var response interface{}
 	responseBody := c.Response().Body()
-	json.Unmarshal([]byte(string(string(responseBody))), &response)
+	if err := json.Unmarshal([]byte(string(string(responseBody))), &response); err != nil {
+		return err
+	}
 	statusCode := c.Response().Header.StatusCode()
 
 	//set log
@@ -60,7 +66,7 @@ func Logger(c *fiber.Ctx) error {
 		tLog.Level = enum.LogLv_Err
 	}
 
-	b, _ := json.Marshal(tLog)
+	b, err := json.Marshal(tLog)
 	fmt.Println(string(b))
 	return err
 }
