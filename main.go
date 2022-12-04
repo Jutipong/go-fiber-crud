@@ -8,22 +8,32 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
-var dataLength = 1000
+var dataLength = 500000
 
 func main() {
 	config.InitialConfig()
-	database.InitialDB()
+	// database.InitialDB()
+	db, sql := database.InitMsql()
+	defer func() {
+		err := sql.Close()
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println("db.Close()")
+		}
+	}()
 	//
-	BunTest()
-	GormTest()
+	// BunTest()
+	GormTest(db)
 }
 
-func GormTest() {
-	data := []database.Customer{}
+func GormTest(db *gorm.DB) {
+	data := new([]database.Customer)
 	for i := 0; i < dataLength; i++ {
-		data = append(data, database.Customer{
+		*data = append(*data, database.Customer{
 			Id:          uuid.NewString(),
 			Name:        fmt.Sprintf("Name: %v", i),
 			Email:       fmt.Sprintf("Email: %v", i),
@@ -33,16 +43,14 @@ func GormTest() {
 		})
 	}
 
-	db := database.Db()
-
 	start := time.Now()
 
-	if err := db.CreateInBatches(&data, 300).Error; err != nil {
+	if err := db.Create(data).Error; err != nil {
 		panic(err)
 	}
 
 	end := time.Since(start)
-	fmt.Println(fmt.Sprintf("Gorm => insert data: %v record time: %.2f:%.2f:%v", len(data), end.Hours(), end.Minutes(), end.Milliseconds()))
+	fmt.Println(fmt.Sprintf("Gorm => insert data: %v record time: %.2f:%.2f:%v", len(*data), end.Hours(), end.Minutes(), end.Milliseconds()))
 }
 
 func BunTest() {
