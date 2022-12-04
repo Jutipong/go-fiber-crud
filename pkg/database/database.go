@@ -14,7 +14,7 @@ import (
 )
 
 type User struct {
-	ID           uint
+	ID           string
 	Name         string
 	Email        *string
 	Age          uint8
@@ -24,6 +24,19 @@ type User struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	TT           string
+}
+
+type Customer struct {
+	Id          string     `gorm:"primaryKey;column:Id"`
+	Name        string     `gorm:"column:Name"`
+	Email       string     `gorm:"column:Email"`
+	Age         int        `gorm:"column:Age"`
+	CreatedDate *time.Time `gorm:"column:CreatedDate"`
+	IsActive    bool       `gorm:"column:IsActive"`
+}
+
+func (Customer) TableName() string {
+	return "CustomerX"
 }
 
 var _db *gorm.DB
@@ -46,7 +59,7 @@ func InitialDB() {
 	}
 	_db = db
 	//Auto Migrate
-	// db.Table("Userx").AutoMigrate(&User{})
+	db.AutoMigrate(&Customer{})
 }
 
 func getConfigDb() string {

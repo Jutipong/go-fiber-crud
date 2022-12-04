@@ -1,5 +1,4 @@
 data:
-  ENV_MODE: debug #debug, release, test
   SERVER_PORT: "8081"
   TOKEN_EXPIRE: 8
   SECRET_KEY: "12345678900987654321"
@@ -7,4 +6,4 @@ data:
   # DATABASE_PORT: 11433
   DATABASE_USER: sa
   DATABASE_PASSWORD: p@ssw0rd
-  DATABASE_NAME: GolangDemo
+  DATABASE_NAME: Test

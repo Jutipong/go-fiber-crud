@@ -1,16 +1,12 @@
 package main
 
 import (
-	"fiber-crud/middleware"
 	"fiber-crud/pkg/config"
 	"fiber-crud/pkg/database"
-	"fiber-crud/pkg/enum"
-	"fiber-crud/pkg/utils"
-	"fiber-crud/routes"
+	"fmt"
+	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/shopspring/decimal"
+	"github.com/google/uuid"
 )
 
 func init() {
@@ -18,97 +14,39 @@ func init() {
 	database.InitialDB()
 }
 
-type Result struct {
-	Name    string
-	Address string
-}
-
 func main() {
-	decimal.MarshalJSONWithoutQuotes = true
-	app := fiber.New(fiber.Config{DisableStartupMessage: true})
-	app.Use(cors.New(cors.Config{AllowOrigins: "*", AllowMethods: "*", AllowHeaders: "*"}))
 
-	// Middleware
-	app.Use(middleware.Logger)
-	// app.Use(middleware.Authorization())
-	// genSQL()
+	data := MockData()
+	db := database.Db()
 
-	// q := query.Use(config.Db())
-	// // address := q.Address
-	// // user := q.User
-	// // // u, _ := user.Preload(field.Associations).Find()
-	// // // fmt.Println(u)
-
-	// a, _ := q.Address.Find()
-	// for _, item := range a {
-	// 	total := item.Lat.Add(item.Long).Add(item.Price)
-	// 	fmt.Println(total)
-	// }
-
-	// Routes
-	routes.PublicRoutes(app)
-	routes.NotFoundRoute(app)
-
-	_configEnv := config.Server()
-	if _configEnv.Env_Mode == enum.ModeDebug {
-		utils.StartServer(app)
-	} else {
-		utils.StartServerWithGracefulShutdown(app)
+	start := time.Now()
+	err := db.CreateInBatches(&data, 100).Error
+	if err != nil {
+		fmt.Println(err)
 	}
+
+	end := time.Since(start)
+
+	fmt.Println(fmt.Sprintf("insert data: %v record time: %v", len(data), end))
+
 }
 
-// // dataMap mapping relationship
-// var dataMap = map[string]func(detailType string) (dataType string){
-// 	// int mapping
-// 	"int": func(detailType string) (dataType string) { return "int32" },
+func MockData() []database.Customer {
+	start := time.Now()
+	result := []database.Customer{}
+	for i := 0; i < 1000000; i++ {
+		result = append(result, database.Customer{
+			Id:          uuid.NewString(),
+			Name:        fmt.Sprintf("Name: %v", i),
+			Email:       fmt.Sprintf("Email: %v", i),
+			Age:         i,
+			CreatedDate: nil,
+			IsActive:    true,
+		})
+	}
 
-// 	// bool mapping
-// 	"tinyint": func(detailType string) (dataType string) {
-// 		if strings.HasPrefix(detailType, "tinyint(1)") {
-// 			return "bool"
-// 		}
-// 		return "byte"
-// 	},
-// }
+	end := time.Since(start)
+	fmt.Println(fmt.Sprintf("mock data: %v", end))
 
-// func genSQL() {
-// 	g := gen.NewGenerator(gen.Config{
-// 		OutPath:      "./dal/query",
-// 		ModelPkgPath: "./dal/model",
-// 		Mode:         gen.WithoutContext,
-// 		// generate model global configuration
-// 		FieldNullable:     true, // generate pointer when field is nullable
-// 		FieldCoverable:    true, // generate pointer when field has default value
-// 		FieldWithIndexTag: true, // generate with gorm index tag
-// 		FieldWithTypeTag:  true, // generate with gorm column type tag
-// 	})
-
-// 	g.UseDB(config.Db())
-
-// 	//change type (*[]uint8 and other) to decimal
-// 	byt, err := json.Marshal(g.GenerateAllTable())
-// 	if err != nil {
-// 		panic("All Talble json Marshal fail.")
-// 	}
-
-// 	var tableNames tableNameAll
-// 	err = json.Unmarshal(byt, &tableNames)
-// 	if err != nil {
-// 		panic("All Talble json Unmarshal fail.")
-// 	}
-
-// 	for _, table := range tableNames {
-// 		currentTable := g.GenerateModel(table.TableName)
-// 		for _, i := range currentTable.Fields {
-// 			if i.Type == "*[]uint8" {
-// 				i.Type = "decimal.Decimal"
-// 			}
-// 		}
-// 		g.ApplyBasic(currentTable)
-// 	}
-
-// 	// g.ApplyBasic(mytable)
-// 	// g.ApplyBasic(g.GenerateAllTable()...) // generate all table in db server
-
-// 	g.Execute()
-// }
+	return result
+}
